@@ -62,3 +62,7 @@ public class TelusUserLoginTest {
 
 
 /*<button data-qa="exe-irpc-card-cta-internet-150-30" type="button" class="Button__StyledButton-sa7xo3-0 jMqVeU" data-di-id="di-id-e3f0971a-dac75a97"><span class="Button__ButtonTextWrapper-sa7xo3-1 gTQbTh">Select This Plan</span></button>*/
+
+//Wait for element to load
+//https://stackoverflow.com/questions/11736027/webdriver-wait-for-element-using-java
+                                                              
