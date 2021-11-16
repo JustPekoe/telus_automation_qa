@@ -2,7 +2,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -10,10 +9,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.concurrent.ExecutionException;
 
 public class TelusUserLoginTest {
-    private static final String WEBDRIVER_PATH = "C:\\Users\\posya\\IdeaProjects\\telus_automation_qa\\libs\\chromedriver_win32\\chromedriver.exe";
+    private static final String WEBDRIVER_PATH = "C:\\Users\\posya\\OneDrive\\Documents\\GitHub\\telus_automation_qa\\libs\\chromedriver_win32\\chromedriver.exe";
 
     @Test
     public void shouldLoginAndUpgrade(){
@@ -31,7 +29,7 @@ public class TelusUserLoginTest {
             WebElement loginButton = driver.findElement(By.id("login-btn"));
             loginButton.click();
 
-            Thread.sleep(10_000);
+            Thread.sleep(15_000);
             //new WebDriverWait(driver,60).until(
             //        webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
 
@@ -39,10 +37,11 @@ public class TelusUserLoginTest {
             WebElement manageInternet = driver.findElement(By.xpath("//a[@href='" + url + "']"));
             manageInternet.click();
 
+            Thread.sleep(5_000);
             WebElement changeInternet = driver.findElement(By.xpath("//span[text()='Change internet plan']"));
             changeInternet.click();
 
-            Thread.sleep(15_000);
+            Thread.sleep(20_000);
             WebElement pickPlan = driver.findElement(By.xpath("//button[text()='exe-irpc-card-cta-internet-150-30']"));
             pickPlan.click();
 
