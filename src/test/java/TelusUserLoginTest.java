@@ -21,7 +21,7 @@ public class TelusUserLoginTest {
 
         try {
             WebElement userName = driver.findElement(By.id("idtoken1"));
-            userName.sendKeys(" tdvancouver.devicelab1@telusinternal.com");
+            userName.sendKeys("tdvancouver.devicelab1@telusinternal.com");
 
             WebElement password = driver.findElement(By.id("idtoken2"));
             password.sendKeys("u7xPU%49");
@@ -33,7 +33,8 @@ public class TelusUserLoginTest {
             //new WebDriverWait(driver,60).until(
             //        webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
 
-            String url = "/my-telus/session/internet/account?account=eAxeDDo7jcpzSwOc-JifqA&serviceId=614341334&rd=/my-telus/internet";
+            //String url = "/my-telus/session/internet/account?account=eAxeDDo7jcpzSwOc-JifqA&serviceId=614341334&rd=/my-telus/internet";
+            String url = "/my-telus/internet?linktype=topNavLnkInternet";
             WebElement manageInternet = driver.findElement(By.xpath("//a[@href='" + url + "']"));
             manageInternet.click();
 
@@ -44,7 +45,14 @@ public class TelusUserLoginTest {
             Thread.sleep(20_000);
             WebElement pickPlan = driver.findElement(By.xpath("//button[text()='exe-irpc-card-cta-internet-150-30']"));
             pickPlan.click();
-
+            
+            
+            WebElement addAddon = driver.findElement(By.xpath("//button[text()='exe-irpc-card-cta-telus-boost-wi-fi-expansion-pack'] &
+                                                              //span[text()='Single Payment'"));
+            addAddon.click();
+                                                              
+            WebElement continueButton = driver.findElement(By.xpath("//button[text()='exe-irpc-continue-btn ']"));
+            continueButton.click();                                                              
         } catch (Exception e) {
             driver.close();
             fail("Test case failed:  " + e);
