@@ -15,4 +15,10 @@ Trade-Offs and Decisions:
    - JUnit5 main testing framework for current job
 3. Should have added more verification for each step
    - Was not familiar with verification processes/features with Selenium
-   - Would have spent more time learning about Selenium
+   - Would have spent more time learning verification of the UI
+   - Only able to verify simple text on the web page
+4. Should have made the code more robust to errors
+   - Currently, the code cannot handle network errors, e.g. connection time out
+   - Could make the code more robust by:
+     - Adding more error handling
+     - Fine-tune the timeout and retries

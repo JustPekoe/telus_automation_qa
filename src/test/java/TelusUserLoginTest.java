@@ -53,7 +53,6 @@ public class TelusUserLoginTest {
         loginButton.click();
 
         //Verify login
-        //assertEquals("Account overview | My TELUS | TELUS.com", driver.getTitle()); //able to access account
         assertWithRetries(() -> {
             assertEquals("Account overview | My TELUS | TELUS.com", driver.getTitle()); //able to access account
         }, 1_000, 20);
@@ -115,17 +114,27 @@ public class TelusUserLoginTest {
         }, 1_000, 20);
     }
 
-    private void verifyCart(){
+    /**
+     * Check the items in the cart are correct
+     */
+    private void verifyCart() throws Exception {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[(text()='Internet 150')]")));
         WebElement internetPlan = driver.findElement(By.xpath("//h2[(text()='Internet 150')]"));
-        assertTrue(internetPlan.isDisplayed());
+        assertWithRetries(() -> {
+            assertTrue(internetPlan.isDisplayed());
+        }, 1_000, 20);
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[(text()='TELUS Boost Wi-Fi Expansion Pack')]")));
         WebElement addon = driver.findElement(By.xpath("//li[(text()='TELUS Boost Wi-Fi Expansion Pack')]"));
-        assertTrue(addon.isDisplayed());
+        assertWithRetries(() -> {
+            assertTrue(addon.isDisplayed());
+        }, 1_000, 20);
     }
 
+    /**
+    Retry assertions with a given interval and retries
+     **/
     private void assertWithRetries(TestBlock test, long interval, int retries) throws Exception {
         while(true) {
             try {
