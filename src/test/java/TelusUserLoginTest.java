@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -55,7 +56,7 @@ public class TelusUserLoginTest {
         //assertEquals("Account overview | My TELUS | TELUS.com", driver.getTitle()); //able to access account
         assertWithRetries(() -> {
             assertEquals("Account overview | My TELUS | TELUS.com", driver.getTitle()); //able to access account
-        }, 1_000, 10);
+        }, 1_000, 20);
     }
 
     /**
@@ -70,9 +71,9 @@ public class TelusUserLoginTest {
 
         //Verify destination page
         assertWithRetries(() -> {
-            assertEquals("My TELUS Internet", driver.getTitle());
+            assertEquals("My TELUS Internet", driver.getTitle());
             assertEquals("https://www.telus.com/my-telus/internet?linktype=topNavLnkInternet", driver.getCurrentUrl());
-        }, 1_000, 10);
+        }, 1_000, 20);
     }
 
     /**
@@ -86,26 +87,43 @@ public class TelusUserLoginTest {
 
         //Verify destination page
         assertWithRetries(() -> {
-            assertEquals("Choose an Internet Plan - Manage Internet Services | Telus", driver.getTitle());
-        }, 1_000, 10);
+            assertEquals("Choose an Internet Plan - Manage Internet Services | TELUS", driver.getTitle());
+        }, 1_000, 20);
     }
 
     /**
      * Select plan, add addon, and continue
      */
-    private void selectPlanAndAddOn() {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+    private void selectPlanAndAddOn() throws Exception {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[data-qa*='exe-irpc-card-cta-internet-150-30']")));
+
         WebElement pickPlan = driver.findElement(By.cssSelector("button[data-qa*='exe-irpc-card-cta-internet-150-30']"));
-        pickPlan.click();
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript("arguments[0].click()", pickPlan);
+
         WebElement addAddon = driver.findElement(By.cssSelector("button[data-qa*='exe-irpc-card-cta-telus-boost-wi-fi-expansion-pack-easy-payment']"));
-        addAddon.click();
+        js = (JavascriptExecutor)driver;
+        js.executeScript("arguments[0].click()", addAddon);
+
         WebElement continueButton = driver.findElement(By.cssSelector("button[data-qa*='exe-irpc-continue-btn']"));
-        continueButton.click();
+        js = (JavascriptExecutor)driver;
+        js.executeScript("arguments[0].click()", continueButton);
+
+        assertWithRetries(() -> {
+            assertEquals("Secure Cart - TELUS", driver.getTitle());
+        }, 1_000, 20);
     }
 
     private void verifyCart(){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[(text()='Internet 150')]")));
+        WebElement internetPlan = driver.findElement(By.xpath("//h2[(text()='Internet 150')]"));
+        assertTrue(internetPlan.isDisplayed());
 
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[(text()='TELUS Boost Wi-Fi Expansion Pack')]")));
+        WebElement addon = driver.findElement(By.xpath("//li[(text()='TELUS Boost Wi-Fi Expansion Pack')]"));
+        assertTrue(addon.isDisplayed());
     }
 
     private void assertWithRetries(TestBlock test, long interval, int retries) throws Exception {
