@@ -2,7 +2,7 @@
 
 Posy Au-Yeung's Telus Automation QA Interview Project
 
-Date: November 16, 2021
+Date: November 17, 2021
 
 The purpose of this project is to create a test case with Selenium (Java) for the Telus Internet user.
 
