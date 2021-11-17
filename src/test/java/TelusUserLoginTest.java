@@ -2,6 +2,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -12,13 +14,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TelusUserLoginTest {
     private static final String WEBDRIVER_PATH = "C:\\Users\\posya\\OneDrive\\Documents\\GitHub\\telus_automation_qa\\libs\\chromedriver_win32\\chromedriver.exe";
+    private WebDriver driver;
 
-    @Test
-    public void shouldLoginAndUpgrade(){
+    @BeforeEach
+    public void beforeEachTest(){
         System.setProperty("webdriver.chrome.driver", WEBDRIVER_PATH);
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.telus.com/my-account");
+    }
 
+    @AfterEach
+    public void afterEachTest(){
+        driver.close();
+    }
+
+    @Test
+    public void shouldLoginAndUpgrade(){
         try {
             WebElement userName = driver.findElement(By.id("idtoken1"));
             userName.sendKeys("tdvancouver.devicelab1@telusinternal.com");
@@ -32,8 +43,6 @@ public class TelusUserLoginTest {
             Thread.sleep(15_000);
             //new WebDriverWait(driver,60).until(
             //        webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-
-            //String url = "/my-telus/session/internet/account?account=eAxeDDo7jcpzSwOc-JifqA&serviceId=614341334&rd=/my-telus/internet";
             String url = "/my-telus/internet?linktype=topNavLnkInternet";
             WebElement manageInternet = driver.findElement(By.xpath("//a[@href='" + url + "']"));
             manageInternet.click();
@@ -43,18 +52,16 @@ public class TelusUserLoginTest {
             changeInternet.click();
 
             Thread.sleep(20_000);
-            WebElement pickPlan = driver.findElement(By.xpath("//button[text()='exe-irpc-card-cta-internet-150-30']"));
+            WebElement pickPlan = driver.findElement(By.cssSelector("button[data-qa*='exe-irpc-card-cta-internet-150-30']"));
             pickPlan.click();
-            
-            
-            WebElement addAddon = driver.findElement(By.xpath("//button[text()='exe-irpc-card-cta-telus-boost-wi-fi-expansion-pack'] &
-                                                              //span[text()='Single Payment'"));
+
+
+            WebElement addAddon = driver.findElement(By.cssSelector("button[data-qa*='exe-irpc-card-cta-telus-boost-wi-fi-expansion-pack-easy-payment']"));
             addAddon.click();
                                                               
-            WebElement continueButton = driver.findElement(By.xpath("//button[text()='exe-irpc-continue-btn ']"));
-            continueButton.click();                                                              
+            WebElement continueButton = driver.findElement(By.cssSelector("button[data-qa*='exe-irpc-continue-btn']"));
+            continueButton.click();
         } catch (Exception e) {
-            driver.close();
             fail("Test case failed:  " + e);
         }
     }
